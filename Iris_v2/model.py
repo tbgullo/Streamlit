@@ -11,7 +11,7 @@ iris_df = pd.DataFrame(iris.data, columns=iris.feature_names)
 iris_df['species'] = [iris.target_names[i] for i in iris.target]
 
 # Carregar modelos
-model_rf = joblib.load("modelo_rf.pkl")
+model_rf = joblib.load("../modelo_rf.pkl")
 model_knn = joblib.load("modelo_knn.pkl")
 model_svm = joblib.load("modelo_svm.pkl")
 modelos = {"Random Forest": model_rf, "K-Nearest Neighbors": model_knn, "Support Vector Machine": model_svm}
