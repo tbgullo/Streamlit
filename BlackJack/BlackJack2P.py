@@ -24,21 +24,27 @@ def win(hand, dealer_hand):
             return 0
         
 # Carregar o modelo treinado
-model = joblib.load('arvore_blackjack.sav')
+model = joblib.load('BlackJack/arvore_blackjack.sav')
 
 # Configurar o ambiente
 def setup_environment():
-    player_2_env = gym.make('Blackjack-v1', render_mode="rgb_array", natural=True, sab=False)
-    env = BlackjackEnv(render_mode="rgb_array")
+    player_2_env = gym.make('Blackjack-v1')
+    env = BlackjackEnv(render_mode="human")
     return player_2_env, env
 
 # Função principal para a jogatina
 def play_game(player_2_env, env, p1_win, p2_win):
-    # Resetar ambientes
+
+    # Requisitos do Player 2 (maquina treinada)
     obs_p2, info = player_2_env.reset()
+
+    # Requisitos do Player 1
     player_2, dealer_value, _ = obs_p2
 
+    # Reset para inicializar as variáveis do ambiente
     obs, info = env.reset(dealer_hand=dealer_value)
+    env.render(player_2)
+    
     done_done = False
     done1 = False
 
@@ -49,12 +55,16 @@ def play_game(player_2_env, env, p1_win, p2_win):
             player_action = 1 if player_action == "HIT" else 0
 
             obs_p1, reward, terminated, truncated, _ = env.step(player_action)
+            st.image(env.render(player_2))
             done1 = terminated or truncated
+
             dealer_hand = env.get_dealer_sum()
         else:
-            # Jogada do Player 2 (modelo)
             next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([obs_p2])[0])
+            st.image(env.render(next_obs[0]))
+            # Se terminou ou truncou (limite de tempo)
             done_done = terminated or truncated
+
             obs_p2 = next_obs
 
     p1_win.append(win(obs_p1[0], dealer_hand))
