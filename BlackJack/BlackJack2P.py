@@ -21,9 +21,9 @@ def win(hand, dealer_hand):
             return -1
         else:
             return 0
-
+        
 # Carregar o modelo treinado
-model = pickle.load(open('../arvore_blackjack.sav', 'rb'))
+model = pickle.load(open('Streamlit/BlackJack/arvore_blackjack.pkl', 'rb'))
 
 # Configurar o ambiente
 def setup_environment():
