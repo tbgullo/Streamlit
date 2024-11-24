@@ -24,7 +24,7 @@ def win(hand, dealer_hand):
             return 0
         
 # Carregar o modelo treinado
-model = joblib.load('arvore_blackjack.pkl')
+model = joblib.load('arvore_blackjack.sav')
 
 # Configurar o ambiente
 def setup_environment():
