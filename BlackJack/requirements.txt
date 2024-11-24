@@ -1,0 +1,7 @@
+streamlit
+gym
+matplotlib
+seaborn
+numpy
+scikit-learn
+tqdm
