@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import pickle
+import joblib
 from sklearn.naive_bayes import GaussianNB
 
 # Função para verificar vencedor
@@ -23,7 +24,7 @@ def win(hand, dealer_hand):
             return 0
         
 # Carregar o modelo treinado
-model = pickle.load(open('arvore_blackjack.pkl', 'rb'))
+model = joblib.load('arvore_blackjack.pkl')
 
 # Configurar o ambiente
 def setup_environment():
