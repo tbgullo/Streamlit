@@ -26,7 +26,7 @@ env = BlackjackEnv(render_mode="human")
 
 # Modelo Final de arquivo pkl
 import pickle
-model = pickle.load(open('./BlackJack/arvore_blackjack.pkl', 'rb'))
+model = pickle.load(open('./BlackJack/arvore_blackjack.sav', 'rb'))
 
 #teste 
 import keyboard
