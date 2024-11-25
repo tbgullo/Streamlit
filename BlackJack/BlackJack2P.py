@@ -24,12 +24,13 @@ def win(hand, dealer_hand):
             return 0
         
 # Carregar o modelo treinado
-model = joblib.load('BlackJack/arvore_blackjack.sav')
+model = joblib.load('arvore_blackjack.sav')
 
 # Configurar o ambiente
 def setup_environment():
     player_2_env = gym.make('Blackjack-v1')
     env = BlackjackEnv(render_mode="human")
+    print(BlackjackEnv)
     return player_2_env, env
 
 # Função principal para a jogatina
