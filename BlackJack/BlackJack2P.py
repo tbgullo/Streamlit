@@ -8,6 +8,7 @@ import numpy as np
 import pickle
 import joblib
 from sklearn.naive_bayes import GaussianNB
+from PIL import Image
 
 # Função para verificar vencedor
 def win(hand, dealer_hand):
@@ -43,8 +44,9 @@ def play_game(player_2_env, env, p1_win, p2_win):
 
     # Reset para inicializar as variáveis do ambiente
     obs, info = env.reset(dealer_hand=dealer_value)
-    env.render(player_2)
-    
+    image_array = env.render(player_2)
+    st.image(Image.fromarray(np.uint8(image_array)))
+
     done_done = False
     done1 = False
 
@@ -55,13 +57,17 @@ def play_game(player_2_env, env, p1_win, p2_win):
             player_action = 1 if player_action == "HIT" else 0
 
             obs_p1, reward, terminated, truncated, _ = env.step(player_action)
-            st.image(env.render(player_2))
+            image_array = env.render(player_2)
+            st.image(Image.fromarray(np.uint8(image_array)))
             done1 = terminated or truncated
 
             dealer_hand = env.get_dealer_sum()
         else:
             next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([obs_p2])[0])
-            st.image(env.render(next_obs[0]))
+
+            image_array = env.render(next_obs[0])
+            st.image(Image.fromarray(np.uint8(image_array)))
+
             # Se terminou ou truncou (limite de tempo)
             done_done = terminated or truncated
 
@@ -70,7 +76,8 @@ def play_game(player_2_env, env, p1_win, p2_win):
     p1_win.append(win(obs_p1[0], dealer_hand))
     p2_win.append(win(obs_p2[0], dealer_hand))
 
-    st.image(env.render(obs_p2[0], done=True))
+    image_array = env.render(obs_p2[0], done=True)
+    st.image(Image.fromarray(np.uint8(image_array)))
 
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
