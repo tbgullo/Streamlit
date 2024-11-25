@@ -36,6 +36,8 @@ def setup_environment():
 # Função principal para a jogatina
 def play_game(player_2_env, env, p1_win, p2_win):
 
+    image_placeholder = st.empty()
+
     # Requisitos do Player 2 (maquina treinada)
     obs_p2, info = player_2_env.reset()
 
@@ -45,7 +47,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
     # Reset para inicializar as variáveis do ambiente
     obs, info = env.reset(dealer_hand=dealer_value)
     image_array = env.render(player_2)
-    st.image(Image.fromarray(np.uint8(image_array)))
+    image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
     done_done = False
     done1 = False
@@ -53,12 +55,23 @@ def play_game(player_2_env, env, p1_win, p2_win):
     while not done_done:
         # Jogada do Player 1
         if not done1:
-            player_action = st.selectbox("Escolha sua ação:", ["HIT", "STICK"])
-            player_action = 1 if player_action == "HIT" else 0
+            col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
+
+            with col1:
+                hit_button = st.button("HIT")
+            with col2:
+                stick_button = st.button("STICK")
+
+            if hit_button:
+                player_action = 1
+            elif stick_button:
+                player_action = 0
+            else:
+                st.stop()  # Aguarda interação do usuário
 
             obs_p1, reward, terminated, truncated, _ = env.step(player_action)
             image_array = env.render(player_2)
-            st.image(Image.fromarray(np.uint8(image_array)))
+            image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             done1 = terminated or truncated
 
             dealer_hand = env.get_dealer_sum()
@@ -66,7 +79,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
             next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([obs_p2])[0])
 
             image_array = env.render(next_obs[0])
-            st.image(Image.fromarray(np.uint8(image_array)))
+            image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
             # Se terminou ou truncou (limite de tempo)
             done_done = terminated or truncated
@@ -77,7 +90,10 @@ def play_game(player_2_env, env, p1_win, p2_win):
     p2_win.append(win(obs_p2[0], dealer_hand))
 
     image_array = env.render(obs_p2[0], done=True)
-    st.image(Image.fromarray(np.uint8(image_array)))
+    image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+    # Botão de reiniciar exibido abaixo
+    if st.button("Reiniciar"):
+        st.experimental_rerun()
 
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
