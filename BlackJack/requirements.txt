@@ -9,3 +9,4 @@ joblib
 gym==0.26.2
 numpy
 pygame
+Pillow
