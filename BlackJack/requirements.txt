@@ -8,4 +8,4 @@ tqdm
 joblib
 gym==0.26.2
 numpy
-gym[toy_text]
+pygame
