@@ -42,7 +42,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
         player_2, dealer_value, _ = obs_p2
 
         # Reset para inicializar as variáveis do ambiente
-        obs, info = env.reset(dealer_hand=dealer_value)
+        obs_p1, info = env.reset(dealer_hand=dealer_value)
         st.session_state.game_state = {
             "obs_p2": obs_p2,
             "obs_p1": obs_p1,
