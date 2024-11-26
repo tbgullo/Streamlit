@@ -25,8 +25,8 @@ def panorama_geral():
     data = pd.read_csv('Bitcoin/BTC-USD.csv', parse_dates=['Date'])
     
     # Filtrando apenas a coluna 'Data' e 'Close' (preço de fechamento)
-    data = data[['Data', 'Close']]
-    data.set_index('Data', inplace=True)
+    data = data[['Date', 'Close']]
+    data.set_index('Date', inplace=True)
 
     # Exibir as primeiras linhas dos dados
     st.write(data.head())
