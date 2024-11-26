@@ -87,7 +87,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
             col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
             with col1:
-                hit_button = st.button("HIT")
+                hit_button = st.button("HIT ")
             with col2:
                 stick_button = st.button("STICK")
 
@@ -128,7 +128,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
     image_array = env.render(obs_p2[0], done=True)
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
     # Botão de reiniciar exibido abaixo
-    
+
     st.button("Reiniciar")
 
 # Função para exibir o desempenho
