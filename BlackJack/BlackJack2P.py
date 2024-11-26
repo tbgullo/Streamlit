@@ -48,7 +48,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
             "obs_p1": obs_p1,
             "player_2": player_2,
             "dealer_value": dealer_value,
-            "dealer_hand": dealer_hand,
+            "dealer_hand": dealer_value,
             "done_done": False,
             "done1": False,
             "p1_win": p1_win,
