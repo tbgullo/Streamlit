@@ -88,18 +88,19 @@ def play_game(player_2_env, env, p1_win, p2_win):
 
     done_done = False
     done1 = False
+    col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
+    with col1:
+        if st.button("HIT", key=f"hit_button_{dealer_hand}_{key_counter}"):
+            game_state["player_action"] = 1
+    with col2:
+        if st.button("STICK", key=f"stick_button_{dealer_hand}_{key_counter}"):
+            game_state["player_action"] = 0
+            
     while not done_done:
         # Jogada do Player 1
         if not done1:
-            col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
-            with col1:
-                if st.button("HIT", key=f"hit_button_{dealer_hand}_{key_counter}"):
-                    game_state["player_action"] = 1
-            with col2:
-                if st.button("STICK", key=f"stick_button_{dealer_hand}_{key_counter}"):
-                    game_state["player_action"] = 0
 
             # Processa a ação selecionada
             if game_state["player_action"] is not None:
