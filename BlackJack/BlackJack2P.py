@@ -53,6 +53,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
             "done1": False,
             "p1_win": p1_win,
             "p2_win": p2_win,
+            "player_action": None,
         }
     
     # Recupera o estado atual
@@ -87,29 +88,23 @@ def play_game(player_2_env, env, p1_win, p2_win):
             col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
             with col1:
-                hit_button = st.button("HIT ")
+                if st.button("HIT", key="hit"):
+                    game_state["player_action"] = 1
             with col2:
-                stick_button = st.button("STICK")
+                if st.button("STICK", key="stick"):
+                    game_state["player_action"] = 0
 
-            if hit_button:
-                player_action = 1
-                obs_p1, reward, terminated, truncated, _ = env.step(player_action)
+            # Processa a ação selecionada
+            if game_state["player_action"] is not None:
+                obs_p1, reward, terminated, truncated, _ = env.step(game_state["player_action"])
                 game_state["obs_p1"] = obs_p1
                 game_state["done1"] = terminated or truncated
                 game_state["dealer_hand"] = env.get_dealer_sum()
+                game_state["player_action"] = None  # Reseta a ação para evitar repetições
+
                 image_array = env.render(player_2)
                 image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
-            elif stick_button:
-                player_action = 0
-                obs_p1, reward, terminated, truncated, _ = env.step(player_action)
-                game_state["obs_p1"] = obs_p1
-                game_state["done1"] = terminated or truncated
-                game_state["dealer_hand"] = env.get_dealer_sum()
-                image_array = env.render(player_2)
-                image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-
-            
             dealer_hand = env.get_dealer_sum()
         else:
             next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([[obs_p2]])[0])
