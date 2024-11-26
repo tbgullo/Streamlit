@@ -29,7 +29,7 @@ def panorama_geral():
     data.set_index('Date', inplace=True)
 
     # Exibir as primeiras linhas dos dados
-    st.write(data.head())
+    st.write(data.tail().iloc[::-1])
     
     # Gráfico de seleção
     grafico = st.selectbox("Escolha o tipo de gráfico:", ["Linha", "Barra", "Histograma"])

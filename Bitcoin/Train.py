@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
-base_bitcoin = pd.read_csv('BTC-USD.csv')
+base_bitcoin = pd.read_csv('Streamlit/Bitcoin/BTC-USD.csv')
 
 # Colunas Adj Close e Volume não iriam impactar positivamente
 base_bitcoin = base_bitcoin.drop(['Adj Close', 'Volume'], axis=1)
@@ -13,7 +13,7 @@ base_bitcoin['Date'] = pd.to_datetime(base_bitcoin['Date'])
 base_bitcoin['Date'] = (base_bitcoin['Date'] - base_bitcoin['Date'].min()).dt.days
 
 # Definir X (variáveis independentes) e y (variável dependente)
-X_bitcoin = base_bitcoin.iloc[: , 0:4]
+X_bitcoin = base_bitcoin.iloc[: , 1:4]
 y_bitcoin = base_bitcoin.iloc[: , 4]
 
 # Dividir os dados em treino e teste
