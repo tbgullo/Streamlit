@@ -22,7 +22,7 @@ def panorama_geral():
     st.title("Panorama Geral do Bitcoin")
     
     # Carregar dados do arquivo CSV (BTC-USD.csv)
-    data = pd.read_csv('BTC-USD.csv', parse_dates=['Data'])
+    data = pd.read_csv('Bitcoin/BTC-USD.csv', parse_dates=['Data'])
     
     # Filtrando apenas a coluna 'Data' e 'Close' (preço de fechamento)
     data = data[['Data', 'Close']]
