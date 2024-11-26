@@ -124,7 +124,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
     # Botão de reiniciar exibido abaixo
 
-    st.button("Reiniciar")
+    st.button("Reiniciar", key="abluble789")
 
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
