@@ -52,9 +52,9 @@ def deduzir_preco(model):
     st.write("Ajuste as métricas abaixo para prever o preço do Bitcoin.")
     
     # Sliders para métricas
-    preco_abertura = st.slider("Preço de Abertura:", min_value=20000, max_value=50000, value=30000, step=500)
-    maior_preco = st.slider("Maior Preço:", min_value=20000, max_value=50000, value=40000, step=500)
-    menor_preco = st.slider("Menor Preço:", min_value=20000, max_value=50000, value=25000, step=500)
+    preco_abertura = st.slider("Preço de Abertura:", min_value=20000, max_value=100000, value=30000, step=500)
+    maior_preco = st.slider("Maior Preço:", min_value=20000, max_value=100000, value=40000, step=500)
+    menor_preco = st.slider("Menor Preço:", min_value=20000, max_value=100000, value=25000, step=500)
 
     # Prevendo preço (exemplo fictício, substitua pelo seu modelo)
     try:
