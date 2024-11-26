@@ -112,7 +112,7 @@ def play_game(player_2_env, env, p1_win, p2_win):
             
             dealer_hand = env.get_dealer_sum()
         else:
-            next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([obs_p2])[0])
+            next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([[obs_p2]])[0])
 
             image_array = env.render(next_obs[0])
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
