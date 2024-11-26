@@ -87,9 +87,9 @@ def play_game(player_2_env, env, p1_win, p2_win):
             col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
             with col1:
-                hit_button = st.button("HIT", key="hit")
+                hit_button = st.button("HIT")
             with col2:
-                stick_button = st.button("STICK", key="stick")
+                stick_button = st.button("STICK")
 
             if hit_button:
                 player_action = 1
@@ -128,22 +128,8 @@ def play_game(player_2_env, env, p1_win, p2_win):
     image_array = env.render(obs_p2[0], done=True)
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
     # Botão de reiniciar exibido abaixo
-    if st.button("Reiniciar", key="restart"):
-        # Apenas redefina o estado do jogo, sem reiniciar todo o script
-        obs_p2, info = player_2_env.reset()
-        player_2, dealer_value, _ = obs_p2
-        obs, info = env.reset(dealer_hand=dealer_value)
-
-        st.session_state.game_state = {
-            "obs_p2": obs_p2,
-            "obs": obs,
-            "player_2": player_2,
-            "dealer_value": dealer_value,
-            "done_done": False,
-            "done1": False,
-            "p1_win": [],
-            "p2_win": [],
-        }
+    
+    st.button("Reiniciar")
 
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
