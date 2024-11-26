@@ -88,10 +88,10 @@ def play_game(player_2_env, env, p1_win, p2_win):
             col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
             with col1:
-                if st.button("HIT", key="hit"):
+                if st.button("HIT", key="abluble123"):
                     game_state["player_action"] = 1
             with col2:
-                if st.button("STICK", key="stick"):
+                if st.button("STICK", key="abluble456"):
                     game_state["player_action"] = 0
 
             # Processa a ação selecionada
