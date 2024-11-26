@@ -35,7 +35,7 @@ def setup_environment():
 
 # Variável para contar as chaves
 if "key_counter" not in st.session_state:
-    st.session_state.key_counter = 0
+    st.session_state.key_counter = 10
 
 # Função principal para a jogatina
 def play_game(player_2_env, env, p1_win, p2_win):
