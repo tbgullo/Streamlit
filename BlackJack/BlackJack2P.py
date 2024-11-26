@@ -33,8 +33,15 @@ def setup_environment():
     env = BlackjackEnv(render_mode="human")
     return player_2_env, env
 
+# Variável para contar as chaves
+if "key_counter" not in st.session_state:
+    st.session_state.key_counter = 0
+
 # Função principal para a jogatina
 def play_game(player_2_env, env, p1_win, p2_win):
+
+    key_counter = st.session_state.key_counter
+    st.session_state.key_counter += 1
 
     if "game_state" not in st.session_state:
         # Requisitos do Player 2 (máquina treinada)
@@ -88,10 +95,10 @@ def play_game(player_2_env, env, p1_win, p2_win):
             col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
             with col1:
-                if st.button("HIT", key="abluble123"):
+                if st.button("HIT", key=f"hit_button_{key_counter}"):
                     game_state["player_action"] = 1
             with col2:
-                if st.button("STICK", key="abluble456"):
+                if st.button("STICK", key=f"stick_button_{key_counter}"):
                     game_state["player_action"] = 0
 
             # Processa a ação selecionada
@@ -124,7 +131,8 @@ def play_game(player_2_env, env, p1_win, p2_win):
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
     # Botão de reiniciar exibido abaixo
 
-    st.button("Reiniciar", key="abluble789")
+    st.button("Reiniciar", key=f"reiniciar_button_{key_counter}")
+
 
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
