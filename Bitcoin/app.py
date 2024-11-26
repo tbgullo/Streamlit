@@ -57,10 +57,11 @@ def deduzir_preco(model):
     menor_preco = st.slider("Menor Preço:", min_value=20000, max_value=50000, value=25000, step=500)
 
     # Prevendo preço (exemplo fictício, substitua pelo seu modelo)
-    preco_previsto = model.predict([preco_abertura, maior_preco , menor_preco])
-
-    st.subheader("Preço Previsto")
-    st.write(f"R$ {preco_previsto:,.2f}")
-
+    try:
+        preco_previsto = model.predict([[preco_abertura, maior_preco, menor_preco]])[0]
+        st.subheader("Preço Previsto")
+        st.write(f"R$ {preco_previsto:,.2f}")
+    except Exception as e:
+        st.error(f"Erro ao prever o preço: {e}")
 if __name__ == "__main__":
     main()
