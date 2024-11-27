@@ -109,6 +109,7 @@ def play_game(p1_win, p2_win):
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             print("acabo stick")
+            st.experimental_rerun()
 
     if done1:
         while not done_done:
@@ -130,11 +131,11 @@ def play_game(p1_win, p2_win):
 
         image_array = env.render(obs_p2[0], done=True)
         image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-        reinicia_game_state()
+        reinicia_game_state(p1_win,p2_win)
     
     # Botão de reiniciar exibido abaixo
     if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
-        reinicia_game_state()
+        reinicia_game_state(p1_win,p2_win)
 
 
 # Função para exibir o desempenho
