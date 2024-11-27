@@ -167,8 +167,6 @@ def play_game():
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
 
-    st.subheader("Desempenho dos Jogadores")
-
     st.subheader("Desempenho Historico")
 
     plt.figure(figsize=(10, 6))
