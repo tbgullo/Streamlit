@@ -255,7 +255,7 @@ class BlackjackEnv(gym.Env):
             )   
         else:
             dealer_text = small_font.render(
-                "Dealer: " + str(sum(self.dealer)), True, white
+                "Dealer: " + str(sum_hand(self.dealer)), True, white
             )  
 
         dealer_text_rect = self.screen.blit(dealer_text, (spacing, spacing))

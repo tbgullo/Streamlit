@@ -9,6 +9,7 @@ import pickle
 import joblib
 from sklearn.naive_bayes import GaussianNB
 from PIL import Image
+import pandas as pd
 
 log_placeholder = st.empty()
 # Função para atualizar o log na interface
@@ -166,15 +167,50 @@ def play_game():
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
 
+    st.subheader("Desempenho dos Jogadores")
+
+    st.subheader("Desempenho Historico")
+
     plt.figure(figsize=(10, 6))
     sns.lineplot(x=range(len(p1_win)), y=p1_win, label="Player 1 (Humano)")
     sns.lineplot(x=range(len(p2_win)), y=p2_win, label="Player 2 (Modelo)")
     plt.title("Desempenho por Partida")
-    plt.xlabel("Número de Partidas")
+    plt.xlabel("Partida")
     plt.ylabel("Vitórias/Derrota")
     plt.legend()
     st.pyplot(plt)
 
+    st.subheader("Desempenho Geral")
+
+    # Contagem de vitórias, derrotas e empates para o jogador 1 (p1_win)
+    p1_victories = sum([1 for x in p1_win if x > 0])  # Contando as vitórias
+    p1_losses = sum([1 for x in p1_win if x < 0])  # Contando as derrotas
+    p1_draws = sum([1 for x in p1_win if x == 0])  # Contando os empates
+
+    # Contagem de vitórias, derrotas e empates para o jogador 2 (p2_win)
+    p2_victories = sum([1 for x in p2_win if x > 0])  # Contando as vitórias
+    p2_losses = sum([1 for x in p2_win if x < 0])  # Contando as derrotas
+    p2_draws = sum([1 for x in p2_win if x == 0])  # Contando os empates
+
+    # Dados para o gráfico
+    data = {
+        "Jogador": ["Você (Player 1)", "Player 2"],
+        "Vitórias": [p1_victories, p2_victories],
+        "Derrotas": [p1_losses, p2_losses],
+        "Empates": [p1_draws, p2_draws]
+    }
+
+    # Criando o gráfico
+    df = pd.DataFrame(data)
+    df.set_index("Jogador", inplace=True)
+
+    # Plotando gráfico de barras
+    df.plot(kind="bar", figsize=(10, 6), color=['green', 'red', 'blue'])
+    plt.title("Vitórias, Derrotas e Empates por Jogador")
+    plt.xlabel("Jogador")
+    plt.ylabel("Quantidade")
+    plt.xticks(rotation=0)
+    st.pyplot(plt)
 # Interface Streamlit
 st.title("Blackjack - Jogo e Análise de Desempenho")
 
