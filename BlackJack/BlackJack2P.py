@@ -140,7 +140,9 @@ def play_game(p1_win, p2_win):
 
             game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
             game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
-
+            log_message(f"{st.session_state.game_state["p1_win"]}")
+            log_message(f"{st.session_state.game_state["p2_win"]}")
+            
             image_array = env.render(obs_p2[0], done=True)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             reinicia_game_state(p1_win,p2_win)
@@ -154,6 +156,7 @@ def play_game(p1_win, p2_win):
 
 # Função para exibir o desempenho
 def show_performance(p1_win, p2_win):
+
     plt.figure(figsize=(10, 6))
     sns.lineplot(x=range(len(p1_win)), y=np.cumsum(p1_win), label="Player 1 (Humano)")
     sns.lineplot(x=range(len(p2_win)), y=np.cumsum(p2_win), label="Player 2 (Modelo)")
@@ -181,6 +184,10 @@ if menu == "Jogo":
 
 elif menu == "Desempenho":
     st.subheader("Desempenho dos Jogadores")
+    
+    log_message(f"{st.session_state.game_state["p1_win"]}")
+    log_message(f"{st.session_state.game_state["p2_win"]}")
+
     if len(st.session_state.game_state["p1_win"]) > 0 and len(st.session_state.game_state["p2_win"]) > 0:
         show_performance(st.session_state.game_state["p1_win"], st.session_state.game_state["p2_win"])
     else:
