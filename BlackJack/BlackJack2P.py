@@ -78,7 +78,7 @@ def play_game(p1_win, p2_win):
     done_done = game_state["done_done"]
     done1 = game_state["done1"]
     env = game_state["env"]
-    player_2_env = ["player_2_env"]
+    player_2_env = game_state["player_2_env"]
     
     image_placeholder = st.empty()
 
