@@ -117,8 +117,6 @@ def play_game(p1_win, p2_win):
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             log_message("acabo stick")
-            st.experimental_rerun()
-
     if done1:
         while not done_done:
                 action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
