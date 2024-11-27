@@ -38,12 +38,15 @@ if "key_counter" not in st.session_state:
     st.session_state.key_counter = 10
 
 # Função principal para a jogatina
-def play_game(player_2_env, env, p1_win, p2_win):
+def play_game(p1_win, p2_win):
 
     key_counter = st.session_state.key_counter
     st.session_state.key_counter += 1
 
     if "game_state" not in st.session_state:
+        
+        player_2_env, env = setup_environment()
+        
         # Requisitos do Player 2 (máquina treinada)
         obs_p2, info = player_2_env.reset()
         player_2, dealer_value, _ = obs_p2
@@ -61,6 +64,8 @@ def play_game(player_2_env, env, p1_win, p2_win):
             "p1_win": p1_win,
             "p2_win": p2_win,
             "player_action": None,
+            "player_2_env": player_2_env,
+            "env": env,
         }
     
     # Recupera o estado atual
@@ -72,6 +77,8 @@ def play_game(player_2_env, env, p1_win, p2_win):
     dealer_hand = game_state["dealer_hand"]
     done_done = game_state["done_done"]
     done1 = game_state["done1"]
+    env = game_state["env"]
+    player_2_env = ["player_2_env"]
     
     image_placeholder = st.empty()
 
@@ -91,48 +98,43 @@ def play_game(player_2_env, env, p1_win, p2_win):
     col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
     with col1:
-        if st.button("HIT", key=f"hit_button_{dealer_hand}_{key_counter}"):
-            game_state["player_action"] = 1
-    with col2:
-        if st.button("STICK", key=f"stick_button_{dealer_hand}_{key_counter}"):
-            game_state["player_action"] = 0
-            
-    while not done_done:
-        # Jogada do Player 1
-        if not done1:
-
-
-            # Processa a ação selecionada
-            if game_state["player_action"] is not None:
-                obs_p1, reward, terminated, truncated, _ = env.step(game_state["player_action"])
-                game_state["obs_p1"] = obs_p1
-                game_state["done1"] = terminated or truncated
-                game_state["dealer_hand"] = env.get_dealer_sum()
-                game_state["player_action"] = None  # Reseta a ação para evitar repetições
-
-                image_array = env.render(player_2)
-                image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-
-            dealer_hand = env.get_dealer_sum()
-        else:
-            next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([[obs_p2]])[0])
-
-            image_array = env.render(next_obs[0])
+        if st.button("HIT", key=f"hit_button"):
+            obs_p1, reward, terminated, truncated, _ = env.step(1)
+            game_state["obs_p1"] = obs_p1
+            game_state["done1"] = terminated or truncated
+            game_state["dealer_hand"] = env.get_dealer_sum()
+            image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
-            # Se terminou ou truncou (limite de tempo)
-            done_done = terminated or truncated
+    with col2:
+        if st.button("STICK", key=f"stick_button"):
+            obs_p1, reward, terminated, truncated, _ = env.step(0)
+            game_state["obs_p1"] = obs_p1
+            game_state["done1"] = True
+            game_state["dealer_hand"] = env.get_dealer_sum()
+            image_array = env.render(player_2)
+            image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+    if done1:
+        while not done_done:
+                next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([[obs_p2]])[0])
 
-            obs_p2 = next_obs
+                image_array = env.render(next_obs[0])
+                image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
-    game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
-    game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
+                # Se terminou ou truncou (limite de tempo)
+                done_done = terminated or truncated
+
+                obs_p2 = next_obs
+
+        game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
+        game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
 
     image_array = env.render(obs_p2[0], done=True)
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+    
     # Botão de reiniciar exibido abaixo
-
-    st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}")
+    if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
+        st.session_state = None
 
 
 # Função para exibir o desempenho
@@ -156,12 +158,11 @@ menu = st.sidebar.radio("Escolha uma opção:", ["Jogo", "Desempenho"])
 
 if menu == "Jogo":
     st.subheader("Jogue Blackjack")
-    player_2_env, env = setup_environment()
-    play_game(player_2_env, env, p1_win, p2_win)
+    play_game(p1_win, p2_win)
 
 elif menu == "Desempenho":
     st.subheader("Desempenho dos Jogadores")
-    if len(p1_win) > 0 and len(p2_win) > 0:
-        show_performance(p1_win, p2_win)
+    if len(st.session_state.game_state["p1_win"]) > 0 and len(st.session_state.game_state["p2_win"]) > 0:
+        show_performance(st.session_state.game_state["p1_win"], st.session_state.game_state["p2_win"])
     else:
         st.write("Nenhuma partida jogada ainda. Jogue algumas partidas para visualizar o desempenho.")
