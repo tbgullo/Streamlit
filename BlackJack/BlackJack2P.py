@@ -18,10 +18,8 @@ def reinicia_game_state():
     player_2, dealer_value, _ = obs_p2
 
     # Reset para inicializar as variáveis do ambiente
-    obs, info = env.reset(dealer_hand=dealer_value)
-
-    # Reset para inicializar as variáveis do ambiente
     obs_p1, info = env.reset(dealer_hand=dealer_value)
+
     st.session_state.game_state = {
         "obs_p2": obs_p2,
         "obs_p1": obs_p1,
@@ -87,12 +85,6 @@ def play_game(p1_win, p2_win):
     image_placeholder = st.empty()
     image_array = env.render(player_2)
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-
-    # Requisitos do Player 2 (maquina treinada)
-    obs_p2, info = player_2_env.reset()
-
-    # Requisitos do Player 1
-    player_2, dealer_value, _ = obs_p2
 
     col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
