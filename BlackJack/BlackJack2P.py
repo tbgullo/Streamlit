@@ -192,22 +192,20 @@ def show_performance(p1_win, p2_win):
     p2_losses = sum([1 for x in p2_win if x < 0])  # Contando as derrotas
     p2_draws = sum([1 for x in p2_win if x == 0])  # Contando os empates
 
-    # Dados para o gráfico
     data = {
-        "Jogador": ["Você (Player 1)", "Player 2"],
-        "Vitórias": [p1_victories, p2_victories],
-        "Derrotas": [p1_losses, p2_losses],
-        "Empates": [p1_draws, p2_draws]
+        "Resultado": ["Vitórias", "Derrotas", "Empates"],
+        "Você (Player 1)": [p1_victories, p1_losses, p1_draws],
+        "Player 2": [p2_victories, p2_losses, p2_draws]
     }
 
     # Criando o gráfico
     df = pd.DataFrame(data)
-    df.set_index("Jogador", inplace=True)
+    df.set_index("Resultado", inplace=True)
 
     # Plotando gráfico de barras
-    df.plot(kind="bar", figsize=(10, 6), color=['green', 'red', 'blue'])
+    df.plot(kind="bar", figsize=(10, 6), color=['blue', 'red'])
     plt.title("Vitórias, Derrotas e Empates por Jogador")
-    plt.xlabel("Jogador")
+    plt.xlabel("Resultado")
     plt.ylabel("Quantidade")
     plt.xticks(rotation=0)
     st.pyplot(plt)
@@ -229,7 +227,6 @@ if menu == "Jogo":
     play_game()
 
 elif menu == "Desempenho":
-    st.subheader("Desempenho dos Jogadores")
 
     if len(st.session_state.game_state["p1_win"]) > 0 and len(st.session_state.game_state["p2_win"]) > 0:
         show_performance(st.session_state.game_state["p1_win"], st.session_state.game_state["p2_win"])
