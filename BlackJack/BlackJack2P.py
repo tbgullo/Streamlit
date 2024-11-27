@@ -93,8 +93,6 @@ def play_game(p1_win, p2_win):
     image_array = env.render(player_2)
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
-    done_done = False
-    done1 = False
     col1, col2 = st.columns(2)  # Colunas para os botões "HIT" e "STICK"
 
     with col1:
