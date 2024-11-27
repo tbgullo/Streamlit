@@ -44,7 +44,7 @@ def play_game(p1_win, p2_win):
     st.session_state.key_counter += 1
 
     if "game_state" not in st.session_state:
-        
+        print("reinicio")
         player_2_env, env = setup_environment()
         
         # Requisitos do Player 2 (máquina treinada)
@@ -64,8 +64,6 @@ def play_game(p1_win, p2_win):
             "dealer_hand": dealer_value,
             "done_done": False,
             "done1": False,
-            "p1_win": p1_win,
-            "p2_win": p2_win,
             "player_action": None,
             "player_2_env": player_2_env,
             "env": env,
@@ -86,7 +84,7 @@ def play_game(p1_win, p2_win):
     image_placeholder = st.empty()
     image_array = env.render(player_2)
     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-    
+
     # Requisitos do Player 2 (maquina treinada)
     obs_p2, info = player_2_env.reset()
 
@@ -127,8 +125,9 @@ def play_game(p1_win, p2_win):
         game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
         game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
 
-    image_array = env.render(obs_p2[0], done=True)
-    image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+        image_array = env.render(obs_p2[0], done=True)
+        image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+        st.session_state = None
     
     # Botão de reiniciar exibido abaixo
     if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
