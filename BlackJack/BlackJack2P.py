@@ -108,6 +108,7 @@ def play_game(p1_win, p2_win):
 
     if done1:
         while not done_done:
+                print(model.predict(np.array(obs_p2).reshape(1, -1)))
                 next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict(np.array(obs_p2).reshape(1, -1)))
 
                 image_array = env.render(next_obs[0])
