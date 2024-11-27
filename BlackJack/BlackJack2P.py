@@ -172,7 +172,7 @@ st.title("Blackjack - Jogo e Análise de Desempenho")
 
 if "game_state" not in st.session_state:
         log_message("reinicio")
-        reinicia_game_state(st.session_state.game_state["p1_win"],st.session_state.game_state["p2_win"])
+        reinicia_game_state([],[])
 
 # Menu lateral para escolher entre Jogo ou Desempenho
 menu = st.sidebar.radio("Escolha uma opção:", ["Jogo", "Desempenho"])
