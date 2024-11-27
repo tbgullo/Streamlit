@@ -150,11 +150,11 @@ def play_game():
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             reinicia_game_state(game_state["p1_win"],game_state["p2_win"])
             
-            if obs_p1[0] > 1:
+            if obs_p1[0] == 1:
                 status_placeholder.markdown(f"<h2 style='text-align: center;'>Voce Ganhou</h2>", unsafe_allow_html=True)
-            if obs_p1[0] < 1:
+            if obs_p1[0] == -1:
                 status_placeholder.markdown(f"<h2 style='text-align: center;'>Voce Perdeu</h2>", unsafe_allow_html=True)
-            if obs_p1[0] > 1:
+            if obs_p1[0] == 0:
                 status_placeholder.markdown(f"<h2 style='text-align: center;'>Empatou</h2>", unsafe_allow_html=True)
         # Botão de reiniciar exibido abaixo
         if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
