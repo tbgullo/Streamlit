@@ -101,12 +101,14 @@ def play_game(p1_win, p2_win):
 
     with col2:
         if st.button("STICK", key=f"stick_button"):
+            print("clico em sitck")
             obs_p1, reward, terminated, truncated, _ = env.step(0)
             game_state["obs_p1"] = obs_p1
             game_state["done1"] = True
             game_state["dealer_hand"] = env.get_dealer_sum()
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+            print("acabo stick")
 
     if done1:
         while not done_done:
