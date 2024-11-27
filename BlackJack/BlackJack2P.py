@@ -110,9 +110,10 @@ def play_game(p1_win, p2_win):
             game_state["dealer_hand"] = env.get_dealer_sum()
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+            
     if done1:
         while not done_done:
-                next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict([[obs_p2]])[0])
+                next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict(np.array(obs_p2).reshape(1, -1))[0])
 
                 image_array = env.render(next_obs[0])
                 image_placeholder.image(Image.fromarray(np.uint8(image_array)))
