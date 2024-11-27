@@ -10,7 +10,7 @@ import joblib
 from sklearn.naive_bayes import GaussianNB
 from PIL import Image
 
-def reinicia_game_state():
+def reinicia_game_state(p1_win, p2_win):
     player_2_env, env = setup_environment()
     
     # Requisitos do Player 2 (máquina treinada)
@@ -28,6 +28,8 @@ def reinicia_game_state():
         "dealer_hand": dealer_value,
         "done_done": False,
         "done1": False,
+        "p1_win" : p1_win,
+        "p2_win" : p2_win,
         "player_action": None,
         "player_2_env": player_2_env,
         "env": env,
@@ -68,7 +70,7 @@ def play_game(p1_win, p2_win):
 
     if "game_state" not in st.session_state:
         print("reinicio")
-        reinicia_game_state()
+        reinicia_game_state(p1_win, p2_win)
     
     # Recupera o estado atual
     game_state = st.session_state.game_state
