@@ -10,6 +10,14 @@ import joblib
 from sklearn.naive_bayes import GaussianNB
 from PIL import Image
 
+log_placeholder = st.empty()
+# Função para atualizar o log na interface
+def log_message(message):
+    if "logs" not in st.session_state:
+        st.session_state.logs = []
+    st.session_state.logs.append(message)
+    log_placeholder.text("\n".join(st.session_state.logs))
+
 def reinicia_game_state(p1_win, p2_win):
     player_2_env, env = setup_environment()
     
@@ -101,21 +109,20 @@ def play_game(p1_win, p2_win):
 
     with col2:
         if st.button("STICK", key=f"stick_button"):
-            print("clico em sitck")
+            log_message("clico em sitck")
             obs_p1, reward, terminated, truncated, _ = env.step(0)
             game_state["obs_p1"] = obs_p1
             game_state["done1"] = True
             game_state["dealer_hand"] = env.get_dealer_sum()
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-            print("acabo stick")
+            log_message("acabo stick")
             st.experimental_rerun()
 
     if done1:
         while not done_done:
                 action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
-                print("aqui",action )
-                print("obs_2", obs_p2)
+                log_message("aqui")
                 next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
 
                 image_array = env.render(next_obs[0])
