@@ -112,6 +112,8 @@ def play_game(p1_win, p2_win):
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             log_message("fim stick")
+            print("fim stick e valor de done", done1)
+            print("valor done done", done_done)
             
     obs_p2 = game_state["obs_p2"]
     obs_p1 = game_state["obs_p1"]
