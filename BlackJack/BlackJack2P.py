@@ -72,7 +72,7 @@ if "key_counter" not in st.session_state:
 
 # Função principal para a jogatina
 def play_game():
-    try:
+
         key_counter = st.session_state.key_counter
         st.session_state.key_counter += 1
 
@@ -128,11 +128,12 @@ def play_game():
             while not done_done:
 
                     action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
-                    next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
+                    try:
+                        next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
+                    except AttributeError as e:
+                        x = 0
+                    image_array = env.render(next_obs[0])
 
-                    image_array = env.render(next_obs[0])
-                    image_array = env.render(next_obs[0])
-                    image_array = env.render(next_obs[0])
                     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
                     # Se terminou ou truncou (limite de tempo)
@@ -150,8 +151,7 @@ def play_game():
         # Botão de reiniciar exibido abaixo
         if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
             reinicia_game_state(game_state["p1_win"],game_state["p2_win"])
-    except AttributeError as e:
-        x = 0
+
 
 
 # Função para exibir o desempenho
