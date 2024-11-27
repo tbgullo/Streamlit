@@ -114,6 +114,7 @@ def play_game(p1_win, p2_win):
         while not done_done:
                 action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
                 print("aquiii  ",action )
+                print("obs_2", obs_p2)
                 next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
 
                 image_array = env.render(next_obs[0])
