@@ -149,7 +149,13 @@ def play_game():
             image_array = env.render(obs_p2[0], done=True)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             reinicia_game_state(game_state["p1_win"],game_state["p2_win"])
-        
+            
+            if obs_p1[0] > 1:
+                status_placeholder.markdown(f"<h2 style='text-align: center;'>Voce Ganhou</h2>", unsafe_allow_html=True)
+            if obs_p1[0] < 1:
+                status_placeholder.markdown(f"<h2 style='text-align: center;'>Voce Perdeu</h2>", unsafe_allow_html=True)
+            if obs_p1[0] > 1:
+                status_placeholder.markdown(f"<h2 style='text-align: center;'>Empatou</h2>", unsafe_allow_html=True)
         # Botão de reiniciar exibido abaixo
         if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
             reinicia_game_state(game_state["p1_win"],game_state["p2_win"])
@@ -160,11 +166,11 @@ def play_game():
 def show_performance(p1_win, p2_win):
 
     plt.figure(figsize=(10, 6))
-    sns.lineplot(x=range(len(p1_win)), y=np.cumsum(p1_win), label="Player 1 (Humano)")
-    sns.lineplot(x=range(len(p2_win)), y=np.cumsum(p2_win), label="Player 2 (Modelo)")
-    plt.title("Desempenho Acumulado por Partida")
+    sns.lineplot(x=range(len(p1_win)), y=p1_win, label="Player 1 (Humano)")
+    sns.lineplot(x=range(len(p2_win)), y=p2_win, label="Player 2 (Modelo)")
+    plt.title("Desempenho por Partida")
     plt.xlabel("Número de Partidas")
-    plt.ylabel("Vitórias Acumuladas")
+    plt.ylabel("Vitórias/Derrota")
     plt.legend()
     st.pyplot(plt)
 
@@ -180,6 +186,9 @@ menu = st.sidebar.radio("Escolha uma opção:", ["Jogo", "Desempenho"])
 
 if menu == "Jogo":
     st.subheader("Jogue Blackjack")
+    # Exibir o status do jogador embaixo, centralizado
+    status_placeholder = st.empty()  # Criar um espaço vazio para o status
+    status_placeholder.markdown(f"<h2 style='text-align: center;'></h2>", unsafe_allow_html=True)
     play_game()
 
 elif menu == "Desempenho":
