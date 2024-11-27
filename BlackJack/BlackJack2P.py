@@ -170,9 +170,9 @@ def show_performance(p1_win, p2_win):
 st.title("Blackjack - Jogo e Análise de Desempenho")
 p1_win = []
 p2_win = []
-
+log_message("zero p1 e p2 win")
 if "game_state" not in st.session_state:
-        print("reinicio")
+        log_message("reinicio")
         reinicia_game_state(p1_win, p2_win)
 
 # Menu lateral para escolher entre Jogo ou Desempenho
