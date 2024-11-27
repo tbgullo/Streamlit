@@ -123,7 +123,6 @@ def play_game(p1_win, p2_win):
     env = game_state["env"]
     player_2_env = game_state["player_2_env"]
 
-    log_message("entrando no done1")
     if done1:
         log_message("dentro do done1")
         while not done_done:
