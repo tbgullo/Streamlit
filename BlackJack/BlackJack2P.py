@@ -18,7 +18,7 @@ def log_message(message):
     st.session_state.logs.append(message)
     log_placeholder.text("\n".join(st.session_state.logs))
 
-def reinicia_game_state(p1_win, p2_win):
+def reinicia_game_state(p1_win = [], p2_win = []):
     player_2_env, env = setup_environment()
     
     # Requisitos do Player 2 (máquina treinada)
@@ -71,7 +71,7 @@ if "key_counter" not in st.session_state:
     st.session_state.key_counter = 10
 
 # Função principal para a jogatina
-def play_game(p1_win, p2_win):
+def play_game():
     try:
         key_counter = st.session_state.key_counter
         st.session_state.key_counter += 1
@@ -131,6 +131,7 @@ def play_game(p1_win, p2_win):
                     next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
 
                     image_array = env.render(next_obs[0])
+                    image_array = env.render(next_obs[0])
                     image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
                     # Se terminou ou truncou (limite de tempo)
@@ -145,11 +146,11 @@ def play_game(p1_win, p2_win):
 
             image_array = env.render(obs_p2[0], done=True)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-            reinicia_game_state(p1_win,p2_win)
+            reinicia_game_state(game_state["p1_win"],game_state["p2_win"])
         
         # Botão de reiniciar exibido abaixo
         if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
-            reinicia_game_state(p1_win,p2_win)
+            reinicia_game_state(game_state["p1_win"],game_state["p2_win"])
     except AttributeError as e:
         x = 0
 
@@ -168,19 +169,17 @@ def show_performance(p1_win, p2_win):
 
 # Interface Streamlit
 st.title("Blackjack - Jogo e Análise de Desempenho")
-p1_win = []
-p2_win = []
-log_message("zero p1 e p2 win")
+
 if "game_state" not in st.session_state:
         log_message("reinicio")
-        reinicia_game_state(p1_win, p2_win)
+        reinicia_game_state(st.session_state.game_state["p1_win"],st.session_state.game_state["p2_win"])
 
 # Menu lateral para escolher entre Jogo ou Desempenho
 menu = st.sidebar.radio("Escolha uma opção:", ["Jogo", "Desempenho"])
 
 if menu == "Jogo":
     st.subheader("Jogue Blackjack")
-    play_game(p1_win, p2_win)
+    play_game()
 
 elif menu == "Desempenho":
     st.subheader("Desempenho dos Jogadores")
