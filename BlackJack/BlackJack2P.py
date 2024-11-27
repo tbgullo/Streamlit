@@ -112,8 +112,17 @@ def play_game(p1_win, p2_win):
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             log_message("fim stick")
+            
+    obs_p2 = game_state["obs_p2"]
+    obs_p1 = game_state["obs_p1"]
+    player_2 = game_state["player_2"]
+    dealer_value = game_state["dealer_value"]
+    dealer_hand = game_state["dealer_hand"]
     done_done = game_state["done_done"]
     done1 = game_state["done1"]
+    env = game_state["env"]
+    player_2_env = game_state["player_2_env"]
+
     log_message("entrando no done1")
     if done1:
         log_message("dentro do done1")
