@@ -112,8 +112,8 @@ def play_game(p1_win, p2_win):
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             log_message("fim stick")
-            print("fim stick e valor de done", done1)
-            print("valor done done", done_done)
+            log_message(f"fim stick e valor de done {done1}")
+            log_message(f"valor done done {done_done}")
             
     obs_p2 = game_state["obs_p2"]
     obs_p1 = game_state["obs_p1"]
@@ -127,6 +127,8 @@ def play_game(p1_win, p2_win):
 
     if done1:
         log_message("dentro do done1")
+        log_message(f"fim stick e valor de done {done1}")
+        log_message(f"valor done done {done_done}")
         while not done_done:
                 log_message("dentro do done done")
                 action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
