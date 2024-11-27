@@ -113,8 +113,8 @@ def play_game(p1_win, p2_win):
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             log_message("acabo stick")
-    log_message("done1: ", done1)
-    log_message("done_done : ", done_done)        
+    log_message("done1: ")
+    log_message("done_done : ")        
     if done1:
         log_message("entro no done1")
         while not done_done:
