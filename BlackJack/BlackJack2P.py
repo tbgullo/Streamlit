@@ -105,21 +105,21 @@ def play_game(p1_win, p2_win):
 
     with col2:
         if st.button("STICK", key=f"stick_button"):
-            log_message("clico em sitck")
             obs_p1, reward, terminated, truncated, _ = env.step(0)
             game_state["obs_p1"] = obs_p1
             game_state["done1"] = True
             game_state["dealer_hand"] = env.get_dealer_sum()
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-            log_message("acabo stick")
-    log_message("done1: ")
-    log_message("done_done : ")        
+    
+    done_done = game_state["done_done"]
+    done1 = game_state["done1"]
+    
     if done1:
-        log_message("entro no done1")
+
         while not done_done:
                 action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
-                log_message("entro nodone_done")
+                
                 next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
 
                 image_array = env.render(next_obs[0])
@@ -129,7 +129,7 @@ def play_game(p1_win, p2_win):
                 done_done = terminated or truncated
 
                 obs_p2 = next_obs
-        log_message("saiu done_done")
+
         game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
         game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
 
