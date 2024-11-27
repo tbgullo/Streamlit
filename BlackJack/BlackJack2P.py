@@ -10,6 +10,31 @@ import joblib
 from sklearn.naive_bayes import GaussianNB
 from PIL import Image
 
+def reinicia_game_state():
+    player_2_env, env = setup_environment()
+    
+    # Requisitos do Player 2 (máquina treinada)
+    obs_p2, info = player_2_env.reset()
+    player_2, dealer_value, _ = obs_p2
+
+    # Reset para inicializar as variáveis do ambiente
+    obs, info = env.reset(dealer_hand=dealer_value)
+
+    # Reset para inicializar as variáveis do ambiente
+    obs_p1, info = env.reset(dealer_hand=dealer_value)
+    st.session_state.game_state = {
+        "obs_p2": obs_p2,
+        "obs_p1": obs_p1,
+        "player_2": player_2,
+        "dealer_value": dealer_value,
+        "dealer_hand": dealer_value,
+        "done_done": False,
+        "done1": False,
+        "player_action": None,
+        "player_2_env": player_2_env,
+        "env": env,
+    }
+
 # Função para verificar vencedor
 def win(hand, dealer_hand):
     if hand > 21:
@@ -45,29 +70,7 @@ def play_game(p1_win, p2_win):
 
     if "game_state" not in st.session_state:
         print("reinicio")
-        player_2_env, env = setup_environment()
-        
-        # Requisitos do Player 2 (máquina treinada)
-        obs_p2, info = player_2_env.reset()
-        player_2, dealer_value, _ = obs_p2
-
-        # Reset para inicializar as variáveis do ambiente
-        obs, info = env.reset(dealer_hand=dealer_value)
-
-        # Reset para inicializar as variáveis do ambiente
-        obs_p1, info = env.reset(dealer_hand=dealer_value)
-        st.session_state.game_state = {
-            "obs_p2": obs_p2,
-            "obs_p1": obs_p1,
-            "player_2": player_2,
-            "dealer_value": dealer_value,
-            "dealer_hand": dealer_value,
-            "done_done": False,
-            "done1": False,
-            "player_action": None,
-            "player_2_env": player_2_env,
-            "env": env,
-        }
+        reinicia_game_state()
     
     # Recupera o estado atual
     game_state = st.session_state.game_state
@@ -110,7 +113,7 @@ def play_game(p1_win, p2_win):
             game_state["dealer_hand"] = env.get_dealer_sum()
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-            
+
     if done1:
         while not done_done:
                 next_obs, reward, terminated, truncated, _ = player_2_env.step(model.predict(np.array(obs_p2).reshape(1, -1))[0])
@@ -128,11 +131,11 @@ def play_game(p1_win, p2_win):
 
         image_array = env.render(obs_p2[0], done=True)
         image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-        st.session_state = None
+        reinicia_game_state()
     
     # Botão de reiniciar exibido abaixo
     if st.button("Reiniciar", key=f"reiniciar_button_{dealer_hand}_{key_counter}"):
-        st.session_state = None
+        reinicia_game_state()
 
 
 # Função para exibir o desempenho
