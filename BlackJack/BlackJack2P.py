@@ -140,9 +140,9 @@ def play_game(p1_win, p2_win):
 
             game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
             game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
-            log_message(f"{st.session_state.game_state["p1_win"]}")
-            log_message(f"{st.session_state.game_state["p2_win"]}")
-            
+            log_message(f"aa{st.session_state.game_state["p1_win"]}")
+            log_message(f"aa{st.session_state.game_state["p2_win"]}")
+
             image_array = env.render(obs_p2[0], done=True)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
             reinicia_game_state(p1_win,p2_win)
