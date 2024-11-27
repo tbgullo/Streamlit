@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
+from sklearn.neural_network import MLPClassifier as MLP
 
 # Classe de Black Jack
 
@@ -12,7 +13,7 @@ class BlackjackAgent:
     def __init__(self):
         self.X_card = []
         self.y_card = []
-        self.model = GaussianNB()
+        self.model = MLP(max_iter=1500, verbose=False, tol=0.00001, solver='adam', activation='relu', hidden_layer_sizes=(50,50, 25,25 )) #max_iter = epochas, verbose = iteration
         self.learning_Gap = 0
         self.training_error = []        
         self.lose = 0
@@ -75,7 +76,7 @@ env.render()
 # Loop de Treinamento
 
 agent = BlackjackAgent()
-n_episodes = 20
+n_episodes = 2000
 env = gym.wrappers.RecordEpisodeStatistics(env, deque_size=n_episodes)
 
 for episode in tqdm(range(n_episodes)):
@@ -133,4 +134,5 @@ classificador_BJ.fit(agent.X_card, agent.y_card)
 
 import pickle
 
-pickle.dump(classificador_BJ, open('../Streamlit/arvore_blackjack.sav', 'wb'))
+#pickle.dump(classificador_BJ, open('../Streamlit/arvore_blackjack.sav', 'wb'))
+pickle.dump(agent.model, open('mlp_blackjack.sav', 'wb'))
