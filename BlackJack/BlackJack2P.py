@@ -76,10 +76,6 @@ def play_game(p1_win, p2_win):
     key_counter = st.session_state.key_counter
     st.session_state.key_counter += 1
 
-    if "game_state" not in st.session_state:
-        print("reinicio")
-        reinicia_game_state(p1_win, p2_win)
-    
     # Recupera o estado atual
     game_state = st.session_state.game_state
     obs_p2 = game_state["obs_p2"]
@@ -120,9 +116,10 @@ def play_game(p1_win, p2_win):
     print("done1: ", done1)
     print("done_done : ", done_done)        
     if done1:
+        print("entro no done1")
         while not done_done:
                 action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
-                log_message("aqui")
+                log_message("entro no done_done")
                 next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
 
                 image_array = env.render(next_obs[0])
@@ -132,7 +129,7 @@ def play_game(p1_win, p2_win):
                 done_done = terminated or truncated
 
                 obs_p2 = next_obs
-
+        print("saiu done_done")
         game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
         game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
 
@@ -160,6 +157,10 @@ def show_performance(p1_win, p2_win):
 st.title("Blackjack - Jogo e Análise de Desempenho")
 p1_win = []
 p2_win = []
+
+if "game_state" not in st.session_state:
+        print("reinicio")
+        reinicia_game_state(p1_win, p2_win)
 
 # Menu lateral para escolher entre Jogo ou Desempenho
 menu = st.sidebar.radio("Escolha uma opção:", ["Jogo", "Desempenho"])
