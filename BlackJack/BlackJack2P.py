@@ -111,8 +111,7 @@ def play_game(p1_win, p2_win):
             game_state["dealer_hand"] = env.get_dealer_sum()
             image_array = env.render(player_2)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
-            image_array = env.render(player_2)
-            image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+            st.session_state.hit_pressed = True
             log_message("fim stick")
             log_message(f"fim stick e valor de done {done1}")
             log_message(f"valor done done {done_done}")
