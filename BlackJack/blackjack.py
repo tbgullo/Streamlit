@@ -37,7 +37,6 @@ def sum_hand(hand):  # Return current hand total
 def is_bust(hand):  # Is this hand a bust?
     return sum_hand(hand) > 21
 
-
 def score(hand):  # What is the score of this hand (0 if bust)
     return 0 if is_bust(hand) else sum_hand(hand)
 
@@ -256,7 +255,7 @@ class BlackjackEnv(gym.Env):
             )   
         else:
             dealer_text = small_font.render(
-                "Dealer: " + str(score(self.dealer)), True, white
+                "Dealer: " + str(sum(self.dealer)), True, white
             )  
 
         dealer_text_rect = self.screen.blit(dealer_text, (spacing, spacing))
