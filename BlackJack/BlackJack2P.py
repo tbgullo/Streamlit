@@ -129,11 +129,11 @@ def play_game():
 
                     action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
                     next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
-                    next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
+                    st.experimental_rerun()
                     image_array = env.render(next_obs[0])
-                    image_array = env.render(next_obs[0])
-                    image_placeholder.image(Image.fromarray(np.uint8(image_array)))
 
+                    image_placeholder.image(Image.fromarray(np.uint8(image_array)))
+                    
                     # Se terminou ou truncou (limite de tempo)
                     done_done = terminated or truncated
 
@@ -141,8 +141,6 @@ def play_game():
 
             game_state["p1_win"].append(win(obs_p1[0], dealer_hand))
             game_state["p2_win"].append(win(obs_p2[0], dealer_hand))
-            log_message(f"aa{st.session_state.game_state["p1_win"]}")
-            log_message(f"aa{st.session_state.game_state["p2_win"]}")
 
             image_array = env.render(obs_p2[0], done=True)
             image_placeholder.image(Image.fromarray(np.uint8(image_array)))
@@ -183,9 +181,6 @@ if menu == "Jogo":
 
 elif menu == "Desempenho":
     st.subheader("Desempenho dos Jogadores")
-    
-    log_message(f"{st.session_state.game_state["p1_win"]}")
-    log_message(f"{st.session_state.game_state["p2_win"]}")
 
     if len(st.session_state.game_state["p1_win"]) > 0 and len(st.session_state.game_state["p2_win"]) > 0:
         show_performance(st.session_state.game_state["p1_win"], st.session_state.game_state["p2_win"])
