@@ -133,7 +133,7 @@ def play_game():
                     
                     try:
                         action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
-                        next_obs, reward, terminated, truncated, _ = player_2_env.step(action)
+                        obs_p2, reward, terminated, truncated, _ = player_2_env.step(action)
                     except AttributeError as e:
                         x = 0
                     action = model.predict(np.array(obs_p2).reshape(1, -1))[0]
